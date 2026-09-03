@@ -205,7 +205,7 @@ npm run dev
 ### ถ้าไม่อยากใช้หน้าเว็บ
 
 ```bash
-python scripts/demo.py --interactive --explain
+python scripts/demo.py -q "องค์ประชุมของรัฐสภาต้องมีสมาชิกเท่าใด" --explain
 ```
 
 ข้อเสีย: ต้องโหลดโมเดลใหม่ทุกครั้งที่เปิดโปรแกรม (~45 วินาทีต่อคำถาม)
