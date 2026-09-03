@@ -43,6 +43,8 @@
 
 ### ขั้น 1 — สร้าง virtual environment และติดตั้งไลบรารี
 
+- อันดับแรกเปิด Terminal แล้วพิมพ์ cd ไปที่โฟลเดอร์ thai-legal-rag-(BAM)
+
 ```bash
 python -m venv .venv
 
