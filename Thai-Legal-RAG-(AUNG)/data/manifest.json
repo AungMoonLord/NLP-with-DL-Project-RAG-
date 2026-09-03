@@ -1,0 +1,5 @@
+{
+  "civil_code_book2.pdf":  {"doc_type": "ประมวลกฎหมาย", "structure": "มาตรา"},
+  "ministry_reg_2564.pdf": {"doc_type": "กฎกระทรวง",   "structure": "ข้อ"},
+  "contract_template_a.pdf": {"doc_type": "สัญญา",     "structure": "ข้อ"}
+}
