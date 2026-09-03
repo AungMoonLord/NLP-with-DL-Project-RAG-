@@ -25,7 +25,9 @@ pandas>=2.2
 
 # --- generation backend (install only what you use) ---
 anthropic>=0.40
-# openai>=1.40
+openai>=1.40
+fastapi
+uvicorn[standard]
 
 # --- input file formats ---
 pypdf>=4.2
