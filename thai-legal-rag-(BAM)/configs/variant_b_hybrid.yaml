@@ -1,0 +1,17 @@
+raw_dir: data/clean
+# Variant B — Hybrid dense + BM25 รวมด้วย RRF
+# ต่างจาก A แค่ "การเติมสัญญาณ lexical" อย่างเดียว
+name: B_hybrid_rrf
+retrieval:
+  mode: hybrid
+  use_reranker: false
+  top_k_dense: 20
+  top_k_bm25: 20
+  rrf_k: 60
+  top_k_final: 5
+generator:
+  backend: openai
+  model: gemma-4-E4B-it
+evaluation:
+  judge_backend: openai
+  judge_model: gemma-4-E4B-it
