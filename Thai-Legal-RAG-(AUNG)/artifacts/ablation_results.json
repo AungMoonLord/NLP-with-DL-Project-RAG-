@@ -1,0 +1,14 @@
+{
+  "dense": {
+    "recall@5": 0.55,
+    "mrr": 0.5167
+  },
+  "hybrid": {
+    "recall@5": 0.55,
+    "mrr": 0.55
+  },
+  "hybrid_rerank": {
+    "recall@5": 0.55,
+    "mrr": 0.55
+  }
+}

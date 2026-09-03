@@ -1,0 +1,1022 @@
+[
+  {
+    "file": "ข้อบังคับการประชุมรัฐสภา พ.ศ. ๒๕๖๓ (แก้ไขเพิ่มเติมถึง (ฉบับที่ ๒) พ.ศ. ๒๕๖๘).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.993,
+      "floating_marks": 0
+    },
+    "n_chars": 58563,
+    "n_matra": 35
+  },
+  {
+    "file": "ข้อบังคับการประชุมสภาผู้แทนราษฎร พ.ศ. 2562.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.991,
+      "floating_marks": 0
+    },
+    "n_chars": 93227,
+    "n_matra": 35
+  },
+  {
+    "file": "บรรพ ๑ หลักทั่วไป (มาตรา ๔ - ๑๙๓_๓๕).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.958,
+      "floating_marks": 0
+    },
+    "n_chars": 74579,
+    "n_matra": 357
+  },
+  {
+    "file": "บรรพ ๒ หนี้ (มาตรา ๑๙๔ - ๔๕๒).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.957,
+      "floating_marks": 0
+    },
+    "n_chars": 84700,
+    "n_matra": 372
+  },
+  {
+    "file": "บรรพ ๓ เอกเทศสัญญา (มาตรา ๔๕๓ -๗๖๙).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.945,
+      "floating_marks": 0
+    },
+    "n_chars": 92578,
+    "n_matra": 489
+  },
+  {
+    "file": "บรรพ ๓ เอกเทศสัญญา (มาตรา ๗๗๐ - ๑๒๙๗).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.95,
+      "floating_marks": 0
+    },
+    "n_chars": 177546,
+    "n_matra": 805
+  },
+  {
+    "file": "บรรพ ๔ ทรัพย์สิน (มาตรา ๑๒๙๘ - ๑๔๓๔).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.96,
+      "floating_marks": 0
+    },
+    "n_chars": 37937,
+    "n_matra": 179
+  },
+  {
+    "file": "บรรพ ๕ ครอบครัว (มาตรา ๑๔๓๕ - ๑๕๙๘_๔๑).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.957,
+      "floating_marks": 0
+    },
+    "n_chars": 94192,
+    "n_matra": 581
+  },
+  {
+    "file": "บรรพ ๖ มรดก (มาตรา ๑๕๙๙ - ๑๗๕๕).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.947,
+      "floating_marks": 0
+    },
+    "n_chars": 54658,
+    "n_matra": 287
+  },
+  {
+    "file": "ประกาศกระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม เรื่อง ขั้นตอนการแจ้งเตือน การระงับการทำให้แพร่หลายของข้อมูลคอมพิวเตอร์และการนำข้อมูลคอมพิวเตอร์ออกจากระบบคอมพิวเตอร์ พ.ศ. ๒๕๖๕.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.949,
+      "floating_marks": 0
+    },
+    "n_chars": 29738,
+    "n_matra": 33
+  },
+  {
+    "file": "ประกาศกระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม เรื่อง หลักเกณฑ์การเก็บรักษาข้อมูลจราจรทางคอมพิวเตอร์ของผู้ให้บริการ พ.ศ. ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.816,
+      "floating_marks": 0
+    },
+    "n_chars": 32929,
+    "n_matra": 2
+  },
+  {
+    "file": "ประกาศคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ เรื่อง ลักษณะภัยคุกคามทางไซเบอร์ มาตรการป้องกัน รับมือ ประเมิน ปราบปรามและระงับภัยคุกคามทางไซเบอร์แต่ละระดับ พ.ศ. ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.946,
+      "floating_marks": 0
+    },
+    "n_chars": 39384,
+    "n_matra": 2
+  },
+  {
+    "file": "ประกาศคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล เรื่อง  หลักเกณฑ์และวิธีการในการแจ้งเหตุการละเมิดข้อมูลส่วนบุคคล  พ.ศ.  ๒๕๖๕.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.977,
+      "floating_marks": 0
+    },
+    "n_chars": 13287,
+    "n_matra": 3
+  },
+  {
+    "file": "ประกาศคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล เรื่อง มาตรการรักษาความมั่นคงปลอดภัยของผู้ควบคุมข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๕.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.915,
+      "floating_marks": 0
+    },
+    "n_chars": 8585,
+    "n_matra": 2
+  },
+  {
+    "file": "ประมวลกฎหมายวิธีพิจารณาความอาญา แก้ไขถึงฉบับที่ ๓๔ พ.ศ. ๒๕๖๒.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.981,
+      "floating_marks": 0
+    },
+    "n_chars": 224539,
+    "n_matra": 757
+  },
+  {
+    "file": "ประมวลกฎหมายอาญา.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.957,
+      "floating_marks": 0
+    },
+    "n_chars": 259033,
+    "n_matra": 1324
+  },
+  {
+    "file": "พ.ร.บ. การคุ้มครองผู้บริโภค พ.ศ. 2522 (และฉบับแก้ไขเพิ่มเติม).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.96,
+      "floating_marks": 0
+    },
+    "n_chars": 77004,
+    "n_matra": 330
+  },
+  {
+    "file": "พ.ร.บ. การจัดสรรที่ดิน พ.ศ. 2543.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.97,
+      "floating_marks": 0
+    },
+    "n_chars": 49687,
+    "n_matra": 180
+  },
+  {
+    "file": "พ.ร.บ. การทวงถามหนี้ พ.ศ. 2558.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.992,
+      "floating_marks": 0
+    },
+    "n_chars": 26185,
+    "n_matra": 113
+  },
+  {
+    "file": "พ.ร.บ. การเช่าอสังหาริมทรัพย์เพื่อพาณิชยกรรมและอุตสาหกรรม พ.ศ. 2542.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.941,
+      "floating_marks": 0
+    },
+    "n_chars": 3986,
+    "n_matra": 11
+  },
+  {
+    "file": "พ.ร.บ. ขายตรงและตลาดแบบตรง พ.ศ. 2545.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.96,
+      "floating_marks": 0
+    },
+    "n_chars": 50921,
+    "n_matra": 230
+  },
+  {
+    "file": "พ.ร.บ. ความรับผิดต่อความเสียหายที่เกิดขึ้นจากสินค้าที่ไม่ปลอดภัย พ.ศ. 2551.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.924,
+      "floating_marks": 0
+    },
+    "n_chars": 9086,
+    "n_matra": 22
+  },
+  {
+    "file": "พ.ร.บ. ความรับผิดทางละเมิดของเจ้าหน้าที่ พ.ศ. 2539.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.966,
+      "floating_marks": 0
+    },
+    "n_chars": 7767,
+    "n_matra": 23
+  },
+  {
+    "file": "พ.ร.บ. ดอกเบี้ยเงินให้กู้ยืมของสถาบันการเงิน พ.ศ. 2523.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.941,
+      "floating_marks": 0
+    },
+    "n_chars": 5481,
+    "n_matra": 19
+  },
+  {
+    "file": "พ.ร.บ. ธุรกรรมทางอิเล็กทรอนิกส์ พ.ศ. 2544 (ฉบับอัปเดตล่าสุด).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.966,
+      "floating_marks": 0
+    },
+    "n_chars": 64928,
+    "n_matra": 168
+  },
+  {
+    "file": "พ.ร.บ. วิธีพิจารณาคดีผู้บริโภค พ.ศ. 2551.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.974,
+      "floating_marks": 0
+    },
+    "n_chars": 36109,
+    "n_matra": 114
+  },
+  {
+    "file": "พ.ร.บ. ว่าด้วยข้อสัญญาที่ไม่เป็นธรรม พ.ศ. 2540.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.963,
+      "floating_marks": 0
+    },
+    "n_chars": 7989,
+    "n_matra": 16
+  },
+  {
+    "file": "พ.ร.บ. หลักประกันทางธุรกิจ พ.ศ. 2558 (ฉบับอัปเดต พ.ศ. 2565).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.995,
+      "floating_marks": 0
+    },
+    "n_chars": 51104,
+    "n_matra": 208
+  },
+  {
+    "file": "พ.ร.บ. ห้ามเรียกดอกเบี้ยเกินอัตรา พ.ศ. 2560.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.991,
+      "floating_marks": 0
+    },
+    "n_chars": 2279,
+    "n_matra": 10
+  },
+  {
+    "file": "พ.ร.บ. อนุญาโตตุลาการ พ.ศ. 2545.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.972,
+      "floating_marks": 0
+    },
+    "n_chars": 35825,
+    "n_matra": 96
+  },
+  {
+    "file": "พ.ร.บ. อาคารชุด พ.ศ. 2522.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.954,
+      "floating_marks": 0
+    },
+    "n_chars": 62737,
+    "n_matra": 350
+  },
+  {
+    "file": "พ.ร.บ. แก้ไขเพิ่มเติมประมวลกฎหมายแพ่งและพาณิชย์ (ฉบับที่ 23) พ.ศ. 2565.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.99,
+      "floating_marks": 0
+    },
+    "n_chars": 13615,
+    "n_matra": 76
+  },
+  {
+    "file": "พ.ร.บ. แก้ไขเพิ่มเติมประมวลกฎหมายแพ่งและพาณิชย์ (ฉบับที่ 24) พ.ศ. 2567.pdf",
+    "method": "ocr",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.963,
+      "floating_marks": 0
+    },
+    "n_chars": 36798,
+    "n_matra": 261
+  },
+  {
+    "file": "พ.ร.บ. แก้ไขเพิ่มเติมประมวลกฎหมายแพ่งและพาณิชย์ (ฉบับที่ 25) พ.ศ. 2568.pdf",
+    "method": "ocr",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.91,
+      "floating_marks": 1
+    },
+    "n_chars": 2596,
+    "n_matra": 7
+  },
+  {
+    "file": "พระราขบัญญัติ ธนาคารอาคารสงเคราะห์ พ.ศ. 2496.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.945,
+      "floating_marks": 0
+    },
+    "n_chars": 23853,
+    "n_matra": 100
+  },
+  {
+    "file": "พระราชกำหนด การประกอบธุรกิจสินทรัพย์ดิจิทัล พ.ศ. 2561.PDF",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.988,
+      "floating_marks": 0
+    },
+    "n_chars": 49996,
+    "n_matra": 238
+  },
+  {
+    "file": "พระราชกำหนด ภาษีการเดินทางออกนอกราชอาณาจักร พ.ศ. 2526.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.96,
+      "floating_marks": 0
+    },
+    "n_chars": 7805,
+    "n_matra": 38
+  },
+  {
+    "file": "พระราชกำหนด ภาษีส่วนเพิ่ม พ.ศ. 2567.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.97,
+      "floating_marks": 0
+    },
+    "n_chars": 71395,
+    "n_matra": 220
+  },
+  {
+    "file": "พระราชกำหนด มาตรการป้องกันและปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. ๒๕๖๖.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.979,
+      "floating_marks": 0
+    },
+    "n_chars": 27494,
+    "n_matra": 82
+  },
+  {
+    "file": "พระราชบัญญัติ การประกอบธุรกิจข้อมูลเครดิต พ.ศ. 2545 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.962,
+      "floating_marks": 0
+    },
+    "n_chars": 47016,
+    "n_matra": 186
+  },
+  {
+    "file": "พระราชบัญญัติ การรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ.๒๕๖๒.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.991,
+      "floating_marks": 0
+    },
+    "n_chars": 59146,
+    "n_matra": 148
+  },
+  {
+    "file": "พระราชบัญญัติ ควบคุมการแลกเปลี่ยนเงิน พ.ศ. 2485 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.952,
+      "floating_marks": 0
+    },
+    "n_chars": 10374,
+    "n_matra": 29
+  },
+  {
+    "file": "พระราชบัญญัติ คุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.993,
+      "floating_marks": 0
+    },
+    "n_chars": 83126,
+    "n_matra": 274
+  },
+  {
+    "file": "พระราชบัญญัติ จัดตั้งศาลภาษีอากรและวิธีพิจารณาคดีภาษีอากร พ.ศ. 2528.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.952,
+      "floating_marks": 0
+    },
+    "n_chars": 19332,
+    "n_matra": 73
+  },
+  {
+    "file": "พระราชบัญญัติ จัดสรรรายได้ประเภทภาษีมูลค่าเพิ่มและภาษีธุรกิจเฉพาะให้แก่ราชการส่วนท้องถิ่น พ.ศ. 2534.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.939,
+      "floating_marks": 0
+    },
+    "n_chars": 3459,
+    "n_matra": 6
+  },
+  {
+    "file": "พระราชบัญญัติ ชดเชยค่าภาษีอากรสินค้าส่งออกที่ผลิตในราชอาณาจักร พ.ศ. 2524.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.963,
+      "floating_marks": 0
+    },
+    "n_chars": 17499,
+    "n_matra": 66
+  },
+  {
+    "file": "พระราชบัญญัติ ธนาคารออมสิน พ.ศ. 2489.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.941,
+      "floating_marks": 0
+    },
+    "n_chars": 15068,
+    "n_matra": 65
+  },
+  {
+    "file": "พระราชบัญญัติ ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร พ.ศ. 2509.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.952,
+      "floating_marks": 0
+    },
+    "n_chars": 37721,
+    "n_matra": 139
+  },
+  {
+    "file": "พระราชบัญญัติ ธนาคารแห่งประเทศไทย พ.ศ. 2485 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.945,
+      "floating_marks": 0
+    },
+    "n_chars": 89227,
+    "n_matra": 388
+  },
+  {
+    "file": "พระราชบัญญัติ ธุรกิจสถาบันการเงิน พ.ศ. 2551 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.973,
+      "floating_marks": 0
+    },
+    "n_chars": 107981,
+    "n_matra": 575
+  },
+  {
+    "file": "พระราชบัญญัติ ป้องกันและปราบปรามการฟอกเงิน พ.ศ. ๒๕๔๒ (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.971,
+      "floating_marks": 0
+    },
+    "n_chars": 90451,
+    "n_matra": 383
+  },
+  {
+    "file": "พระราชบัญญัติ ภาษีการรับมรดก พ.ศ. 2558.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.973,
+      "floating_marks": 0
+    },
+    "n_chars": 19884,
+    "n_matra": 72
+  },
+  {
+    "file": "พระราชบัญญัติ ภาษีที่ดินและสิ่งปลูกสร้าง พ.ศ. 2562.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.974,
+      "floating_marks": 0
+    },
+    "n_chars": 61610,
+    "n_matra": 174
+  },
+  {
+    "file": "พระราชบัญญัติ ภาษีป้าย พ.ศ. 2510.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.951,
+      "floating_marks": 0
+    },
+    "n_chars": 28458,
+    "n_matra": 122
+  },
+  {
+    "file": "พระราชบัญญัติ ภาษีสรรพสามิต พ.ศ. 2560.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.972,
+      "floating_marks": 0
+    },
+    "n_chars": 114602,
+    "n_matra": 411
+  },
+  {
+    "file": "พระราชบัญญัติ ภาษีเงินได้ปิโตรเลียม พ.ศ. 2514.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.959,
+      "floating_marks": 0
+    },
+    "n_chars": 100163,
+    "n_matra": 487
+  },
+  {
+    "file": "พระราชบัญญัติ ยกเว้นเบี้ยปรับ เงินเพิ่มภาษีอากร และความรับผิดทางอาญา เพื่อสนับสนุนการปฏิบัติการเกี่ยวกับภาษีอากรตามประมวลรัษฎากร พ.ศ. 2562.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.953,
+      "floating_marks": 0
+    },
+    "n_chars": 5359,
+    "n_matra": 20
+  },
+  {
+    "file": "พระราชบัญญัติ รถยนต์ พ.ศ. 2522.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.939,
+      "floating_marks": 0
+    },
+    "n_chars": 102953,
+    "n_matra": 435
+  },
+  {
+    "file": "พระราชบัญญัติ ระบบการชำระเงิน พ.ศ. 2560.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.97,
+      "floating_marks": 0
+    },
+    "n_chars": 31660,
+    "n_matra": 112
+  },
+  {
+    "file": "พระราชบัญญัติ วินัยการเงินการคลังของรัฐ พ.ศ. 2561.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.973,
+      "floating_marks": 0
+    },
+    "n_chars": 38294,
+    "n_matra": 120
+  },
+  {
+    "file": "พระราชบัญญัติ ว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. ๒๕๕๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.98,
+      "floating_marks": 0
+    },
+    "n_chars": 34767,
+    "n_matra": 145
+  },
+  {
+    "file": "พระราชบัญญัติ ว่าด้วยธุรกรรมทางอิเล็กทรอนิกส์ พ.ศ. ๒๕๔๔ (ฉบับแก้ไขเพิ่มเติม).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.984,
+      "floating_marks": 0
+    },
+    "n_chars": 61737,
+    "n_matra": 163
+  },
+  {
+    "file": "พระราชบัญญัติ สลากกินแบ่งรัฐบาล พ.ศ. 2517.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.957,
+      "floating_marks": 0
+    },
+    "n_chars": 27023,
+    "n_matra": 106
+  },
+  {
+    "file": "พระราชบัญญัติ หลักทรัพย์และตลาดหลักทรัพย์ พ.ศ. 2535 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.952,
+      "floating_marks": 0
+    },
+    "n_chars": 284611,
+    "n_matra": 1713
+  },
+  {
+    "file": "พระราชบัญญัติ เงินตรา พ.ศ. 2501 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.955,
+      "floating_marks": 0
+    },
+    "n_chars": 30395,
+    "n_matra": 99
+  },
+  {
+    "file": "พระราชบัญญัติ แก้ไขเพิ่มเติมบทบัญญัติแห่งกฎหมายที่เกี่ยวกับความรับผิดในทางอาญาของผู้แทนนิติบุคคล พ.ศ. ๒๕๖๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.983,
+      "floating_marks": 0
+    },
+    "n_chars": 47788,
+    "n_matra": 265
+  },
+  {
+    "file": "พระราชบัญญัติ ให้อำนาจปฏิบัติการเกี่ยวกับกองทุนการเงินและธนาคารระหว่างประเทศ พ.ศ. 2494 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.965,
+      "floating_marks": 0
+    },
+    "n_chars": 18994,
+    "n_matra": 62
+  },
+  {
+    "file": "พระราชบัญญัติ ให้อำนาจและกำหนดการปฏิบัติบางประการเกี่ยวกับสิทธิพิเศษถอนเงินในกองทุนการเงินระหว่างประเทศ พ.ศ. 2514 (ฉบับประมวล).pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.939,
+      "floating_marks": 0
+    },
+    "n_chars": 4585,
+    "n_matra": 16
+  },
+  {
+    "file": "พระราชบัญญัติ ให้ใช้ประมวลกฏหมายวิธีพิจารณาความอาญา ๒๔๗๗.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.979,
+      "floating_marks": 0
+    },
+    "n_chars": 225314,
+    "n_matra": 757
+  },
+  {
+    "file": "พระราชบัญญัติการเข้าชื่อเสนอกฎหมาย พ.ศ. ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.996,
+      "floating_marks": 0
+    },
+    "n_chars": 11272,
+    "n_matra": 54
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการป้องกันและปราบปรามการทุจริต พ.ศ. ๒๕๖๑.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.986,
+      "floating_marks": 0
+    },
+    "n_chars": 154761,
+    "n_matra": 400
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการเลือกตั้งสมาชิกสภาผู้แทนราษฎร พ.ศ. ๒๕๖๑.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.996,
+      "floating_marks": 0
+    },
+    "n_chars": 109684,
+    "n_matra": 311
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการได้มาซึ่งสมาชิกวุฒิสภา พ.ศ. ๒๕๖๑.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.992,
+      "floating_marks": 0
+    },
+    "n_chars": 71708,
+    "n_matra": 190
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยคณะกรรมการการเลือกตั้ง พ.ศ. ๒๕๖๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.995,
+      "floating_marks": 0
+    },
+    "n_chars": 64469,
+    "n_matra": 139
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยผู้ตรวจการแผ่นดิน พ.ศ. ๒๕๖๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.993,
+      "floating_marks": 0
+    },
+    "n_chars": 47048,
+    "n_matra": 125
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยพรรคการเมือง (ฉบับที่ ๒) พ.ศ. ๒๕๖๖.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.988,
+      "floating_marks": 0
+    },
+    "n_chars": 11874,
+    "n_matra": 47
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยพรรคการเมือง พ.ศ. ๒๕๖๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.994,
+      "floating_marks": 0
+    },
+    "n_chars": 87748,
+    "n_matra": 350
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยวิธีพิจารณาของศาลรัฐธรรมนูญ พ.ศ. ๒๕๖๑.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.994,
+      "floating_marks": 0
+    },
+    "n_chars": 55674,
+    "n_matra": 158
+  },
+  {
+    "file": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยวิธีพิจารณาคดีอาญาของผู้ดํารงตําแหน่งทางการเมือง พ.ศ. ๒๕๖๐.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.993,
+      "floating_marks": 0
+    },
+    "n_chars": 41334,
+    "n_matra": 125
+  },
+  {
+    "file": "พระราชบัญญัติว่าด้วยการออกเสียงประชามติ พ.ศ. ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.995,
+      "floating_marks": 0
+    },
+    "n_chars": 51306,
+    "n_matra": 136
+  },
+  {
+    "file": "ระเบียบสภาผู้แทนราษฎรว่าด้วยการรับรองความถูกต้องของบันทึกการประชุมของคณะกรรมาธิการและการเปิดเผยบันทึกการประชุมและรายงานของคณะกรรมาธิการให้ประชาชนทราบ พ.ศ. ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.995,
+      "floating_marks": 0
+    },
+    "n_chars": 4998,
+    "n_matra": 1
+  },
+  {
+    "file": "ระเบียบสภาผู้แทนราษฎรว่าด้วยกำาหนดเวลาการแสดงความจำนงตั้งกระทู้ถามสดด้วยวาจา พ.ศ. 2563.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.959,
+      "floating_marks": 0
+    },
+    "n_chars": 1509,
+    "n_matra": 0
+  },
+  {
+    "file": "ระเบียบสภาผู้แทนราษฎรว่าด้วยหลักเกณฑ์และวิธีการขอปรึกษาหารือของสมาชิกสภาผู้แทนราษฎรก่อนเข้าสู่ระเบียบวาระการประชุม พ.ศ. ๒๕๖๒.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.755,
+      "floating_marks": 0
+    },
+    "n_chars": 3525,
+    "n_matra": 0
+  },
+  {
+    "file": "รัฐธรรมนูญแห่งราชอาณาจักรไทย แก้ไขเพิ่มเติม (ฉบับที่ 1) พุทธศักราช ๒๕๖๔.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.993,
+      "floating_marks": 0
+    },
+    "n_chars": 5472,
+    "n_matra": 17
+  },
+  {
+    "file": "รัฐธรรมนูญแห่งราชอาณาจักรไทย.pdf",
+    "method": "text_layer",
+    "quality": {
+      "ok": true,
+      "reason": "ok",
+      "thai_ratio": 0.994,
+      "floating_marks": 0
+    },
+    "n_chars": 196484,
+    "n_matra": 549
+  }
+]

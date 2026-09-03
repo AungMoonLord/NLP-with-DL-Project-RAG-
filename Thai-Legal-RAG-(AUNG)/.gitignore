@@ -1,0 +1,21 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Large Index & Artifacts
+artifacts/*.faiss
+artifacts/*.bin
+artifacts/*.pkl
+
+# Temp files
+bash.txt
+*.tmp
+.DS_Store
+
+# Secret configs (ถ้าแยกเก็บ key)
+.env
