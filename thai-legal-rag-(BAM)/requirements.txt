@@ -1,0 +1,32 @@
+# --- core ---
+numpy>=1.26
+pyyaml>=6.0
+tqdm>=4.66
+
+# --- embedding / retrieval ---
+torch>=2.2                     # CPU wheel ก็พอ
+sentence-transformers>=3.0
+transformers>=4.40
+faiss-cpu>=1.8                 # ไม่บังคับ ถ้าไม่มีจะ fallback ไป numpy
+rank-bm25>=0.2.2
+
+# --- ภาษาไทย ---
+pythainlp>=5.0
+python-crfsuite>=0.9.9         # จำเป็นสำหรับ sent_tokenize engine 'crfcut'
+
+# --- evaluation ---
+bert-score>=0.3.13
+matplotlib>=3.8
+pandas>=2.2
+
+# --- generation backends (เลือกติดตั้งเฉพาะที่ใช้) ---
+anthropic>=0.40
+# openai>=1.40
+
+# --- ไฟล์ input ---
+pypdf>=4.2
+
+# --- web API (optional, for the Svelte frontend) ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+openai>=1.40
