@@ -1,0 +1,19 @@
+raw_dir: data/clean
+# Variant D — เหมือน A ทุกอย่าง ยกเว้น chunk ใหญ่ขึ้น 2 เท่า
+# ⚠️ ต้อง ingest ใหม่ก่อนรัน:
+#    python scripts/ingest.py --config configs/variant_d_chunk1024.yaml
+name: D_dense_chunk1024
+chunk:
+  max_tokens: 1024
+  overlap_tokens: 128
+  min_tokens: 160
+retrieval:
+  mode: dense
+  use_reranker: false
+  top_k_final: 5
+generator:
+  backend: openai
+  model: gemma-4-E4B-it
+evaluation:
+  judge_backend: openai
+  judge_model: gemma-4-E4B-it
