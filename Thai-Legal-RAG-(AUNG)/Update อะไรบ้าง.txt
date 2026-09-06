@@ -1,0 +1,24 @@
+Update config.py
+
+Update scripts/run_ablation.py
+
+เพิ่มไฟล์ src/metrics.py
+
+Update src/retrieval.py
+
+Update src/generation.py
+
+
+Update src/evaluation.py
+
+Update scripts/run_ablation.py
+
+Update scripts/run_eval.py
+
+เพิ่มไฟล์ scripts/smoke_test.py
+
+Update src/indexer.py
+
+Update demo.py
+
+Update src/pipeline.py
