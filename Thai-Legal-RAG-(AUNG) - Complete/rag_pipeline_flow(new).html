@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thai Legal RAG — Pipeline Data Flow</title>
+<style>
+:root{--bg:#f6f8fa;--fg:#14212b;--mute:#5b6b78;--line:#b8c4cd;--card:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f171d;--fg:#e6edf2;--mute:#93a3b0;--line:#3a4b58;--card:#16222b}}
+:root[data-theme="dark"]{--bg:#0f171d;--fg:#e6edf2;--mute:#93a3b0;--line:#3a4b58;--card:#16222b}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Sarabun","Noto Sans Thai","Leelawadee UI","Tahoma",system-ui,sans-serif}
+body{padding:24px 20px 40px}
+h1{font-size:1.5rem;margin:0 0 4px}
+p{margin:0 0 14px;color:var(--mute);font-size:.92rem;max-width:90ch}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+svg{display:block;min-width:1200px;width:100%;height:auto}
+svg text{fill:var(--fg);font-family:inherit}
+.g{transition:opacity .15s}
+svg:hover .g{opacity:.3}
+svg .g:hover{opacity:1}
+.modes{margin-top:14px;font-size:.88rem;line-height:1.7}
+.modes b{font-weight:700}
+</style>
+</head>
+<body>
+<h1>Thai Legal RAG — เส้นทางของข้อมูลตั้งแต่ต้นจนจบ</h1>
+<p>เส้นทึบคือการไหลของข้อมูลภายใน pipeline เดียวกัน เส้นประคือจุดเชื่อมระหว่างช่วง ตัวเลขในวงกลมคือลำดับขั้นในช่วงนั้น ชิ้นที่ซ้อนกันทำงานคู่ขนาน</p>
+<div class="wrap"><svg id="m" role="img" aria-label="Data flow of the Thai Legal RAG pipeline from PDF to evaluation"></svg></div>
+<div class="modes">
+<b>โหมด retrieval ที่ใช้ตัดทอน pipeline ออนไลน์:</b>
+dense = ขั้น 2 (Dense) เท่านั้น · bm25 = ขั้น 2 (BM25) เท่านั้น · hybrid = ขั้น 2 + RRF · <b>hybrid_rerank = ครบทุกขั้น (ค่าเริ่มต้นของ RAGPipeline)</b>
+</div>
+<script>
+const NW=176,GAP=84,X0=14,STRIDE=256;
+const colX=i=>X0+i*(NW+GAP);
+const lanes=[
+{h:205,t:"Offline · สร้างฐานความรู้",s:"รันครั้งเดียว: extract_corpus.py → build_index.py",
+ n:[["PDF กฎหมายไทย","~85 ฉบับ","data/pdfs/"],
+    ["Extract","text layer → ตรวจคุณภาพ","→ OCR (Tesseract) ถ้าเสีย","src/extraction.py"],
+    ["Clean","NFC, ตัดเลขหน้า/zero-width","รวมบรรทัด, PyThaiNLP","→ data/documents/*.txt"],
+    ["Chunk","แบ่งตาม มาตรา / ข้อ","pack 256 tok, overlap 48","src/chunking.py"],
+    ["Index","“passage: ” → e5 → L2 norm","→ FAISS IndexFlatIP","newmm → BM25 (indexer.py)"],
+    ["Artifacts","chunks.json","dense.faiss · bm25.pkl","artifacts/"]],
+ e:["PDF bytes","raw text","clean .txt","chunks[]","index files"]},
+{h:160,t:"Online · ตอบคำถาม",s:"ทุกครั้งที่ผู้ใช้ถาม: RAGPipeline.answer()",
+ n:[["Query","คำถามภาษาไทยของผู้ใช้","demo.py / run_eval.py"],
+    {st:[["Dense search","“query: ” → e5 → L2 norm","FAISS IP top-30"],["BM25 search","newmm → BM25 top-30"]]},
+    ["RRF Fusion","รวมอันดับ Σ 1/(60+rank)","candidate pool 30 chunk"],
+    ["Rerank","bge-reranker-v2-m3","ให้คะแนนคู่ (query, chunk)","→ เลือก top-5"],
+    ["Generate","build_context → prompt","gemma-4-E4B-it, temp 0","ไม่มี context → abstain"],
+    ["Answer","คำตอบ + แหล่งอ้างอิง","หรือ “ไม่พบข้อมูลในเอกสาร","ที่มี” (abstain)"]],
+ e:["query text","2 ranked lists","30 candidates","top-5 chunks","answer"]},
+{h:275,t:"Evaluation · ประเมินผล",s:"scripts/run_ablation.py และ run_eval.py",
+ n:[["testset.json","~20 คำถาม + เฉลย","Answerable / Adversarial"],
+    {st:[["run_ablation.py","เรียก Retriever ทั้ง 4 โหมด"],["run_eval.py","เรียก RAGPipeline เดียวกัน"]]},
+    ["Metrics","Recall@k, Hit, MRR, nDCG","Answerable: BERTScore,","Faithfulness, Relevance"],
+    ["Statistics","Bootstrap 95% CI","paired p-value vs dense","False abst. (Answerable)","Correct abst. (Adversarial)"],
+    ["Output files","ablation_results.json / .md","eval_results.json","failure_cases.json"],
+    ["Slides & Analysis","ตาราง ablation (สไลด์ 6–7)","ผลประเมิน (สไลด์ 8)","failure analysis (สไลด์ 9)"]],
+ e:["questions","results","scores","summary","artifacts"]}];
+const NS="http://www.w3.org/2000/svg",svg=document.getElementById("m");
+const H=20+STRIDE*3-70+20;
+svg.setAttribute("viewBox",`0 0 1500 ${H}`);
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e}
+function tx(x,y,s,o,p){const e=el("text",Object.assign({x,y},o),p);e.textContent=s;return e}
+const defs=el("defs",{});
+lanes.forEach((L,i)=>{const m=el("marker",{id:"a"+i,viewBox:"0 0 10 10",refX:9,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},defs);el("path",{d:"M0,0 L10,5 L0,10 z",fill:`hsl(${L.h} 55% 45%)`},m)});
+function pill(x,y,s,g){const w=s.length*5.8+14;el("rect",{x:x-w/2,y:y-10,width:w,height:20,rx:10,fill:"var(--card)",stroke:"var(--line)"},g);tx(x,y+4,s,{"text-anchor":"middle","font-size":10.5,style:"fill:var(--mute)"},g)}
+function edge(g,x1,y1,x2,y2,c,mk,dash){const m=(x1+x2)/2;el("path",{d:`M${x1},${y1} C${m},${y1} ${m},${y2} ${x2},${y2}`,fill:"none",stroke:c,"stroke-width":2,"marker-end":`url(#${mk})`},g)}
+const pos=[];
+lanes.forEach((L,li)=>{
+  const top=20+li*STRIDE,cy=top+56+65,c=`hsl(${L.h} 55% 45%)`,f=`hsl(${L.h} 55% 50% / .14)`;
+  const g=el("g",{class:"g"});
+  tx(20,top+18,L.t,{"font-size":16,"font-weight":700},g);
+  tx(20,top+38,L.s,{"font-size":11.5,style:"fill:var(--mute)"},g);
+  const outs=[],ins=[];
+  L.n.forEach((n,i)=>{
+    const x=colX(i);
+    const boxes=n.st?n.st.map((b,k)=>({l:b,y:cy+(k?5:-65),h:60})):[{l:n,y:cy-48,h:96}];
+    boxes.forEach(b=>{
+      el("rect",{x,y:b.y,width:NW,height:b.h,rx:10,fill:f,stroke:c,"stroke-width":1.3},g);
+      b.l.forEach((s,k)=>tx(x+12,b.y+(k?(b.h>60?22:18)+k*16-16+16:18)+(b.h>60&&k?0:0),s,
+        k?{"font-size":11,style:"fill:var(--mute)"}:{"font-size":14,"font-weight":700},g));
+    });
+    if(!n.st){el("circle",{cx:x,cy:cy-48,r:11,fill:c},g);tx(x,cy-44,i+1,{"text-anchor":"middle","font-size":11,"font-weight":700,style:"fill:#fff"},g)}
+    else{n.st.forEach((b,k)=>{const yy=cy+(k?5:-65);el("circle",{cx:x,cy:yy,r:11,fill:c},g);tx(x,yy+4,i+1,{"text-anchor":"middle","font-size":11,"font-weight":700,style:"fill:#fff"},g)})}
+    ins[i]=boxes.map(b=>[x,b.y+b.h/2]);outs[i]=boxes.map(b=>[x+NW,b.y+b.h/2]);
+  });
+  for(let i=0;i<5;i++){
+    outs[i].forEach(o=>ins[i+1].forEach(t=>edge(g,o[0],o[1],t[0],t[1],c,"a"+li)));
+    pill((colX(i)+NW+colX(i+1))/2,cy,L.e[i],g);
+  }
+  pos.push({g,top,cy,c,li});
+});
+function link(a,b,x1,x2,label){
+  const y1=pos[a].cy+48,y2=pos[b].top+56+(b===1?0:0)+(b===1?0:0);
+  const yt=b===1?pos[b].cy-65:pos[b].cy-48;
+  const g=el("g",{class:"g"}),ym=(y1+yt)/2;
+  el("path",{d:`M${x1},${y1} C${x1},${ym} ${x2},${ym} ${x2},${yt}`,fill:"none",stroke:"hsl(215 15% 55%)","stroke-width":2,"stroke-dasharray":"6 5","marker-end":"url(#a1)"},g);
+  pill((x1+x2)/2,ym,label,g);
+}
+link(0,1,colX(5)+NW/2,colX(1)+NW/2,"โหลด index ตอนเริ่มระบบ");
+link(1,2,colX(5)+NW/2,colX(2)+NW/2,"answers + contexts ส่งไปประเมิน");
+</script>
+</body>
+</html>

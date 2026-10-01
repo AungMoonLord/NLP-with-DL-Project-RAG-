@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thai Legal RAG — วิธีใช้งานและคำสั่งตามลำดับ</title>
+<style>
+:root{--bg:#f6f8fa;--fg:#14212b;--mute:#5b6b78;--line:#b8c4cd;--card:#fff;--code:#0f1c25;--codefg:#dbe7f0;--cm:#7f97a8;--acc:#1f5f99;--ok:#1e7d52}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f171d;--fg:#e6edf2;--mute:#93a3b0;--line:#3a4b58;--card:#16222b;--code:#0a1116;--acc:#5aa6e6;--ok:#4fc58f}}
+:root[data-theme="dark"]{--bg:#0f171d;--fg:#e6edf2;--mute:#93a3b0;--line:#3a4b58;--card:#16222b;--code:#0a1116;--acc:#5aa6e6;--ok:#4fc58f}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Sarabun","Noto Sans Thai","Leelawadee UI","Tahoma",system-ui,sans-serif;line-height:1.55}
+body{padding:24px 20px 60px;max-width:1000px;margin:0 auto}
+h1{font-size:1.5rem;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 18px;font-size:.93rem}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.tabs button{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.tabs button:focus-visible,.copy:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.hint{color:var(--mute);font-size:.85rem;margin:0 0 22px}
+.oneclick{border:2px dashed var(--ok);border-radius:12px;padding:14px 16px;margin-bottom:26px;background:var(--card)}
+.oneclick h2{margin:0 0 4px;font-size:1.05rem;color:var(--ok)}
+.oneclick p{margin:0 0 8px;font-size:.9rem;color:var(--mute)}
+.spine{position:relative}
+.step{display:grid;grid-template-columns:44px 1fr;gap:0 14px;position:relative;padding-bottom:22px}
+.step::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.num{width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;display:grid;place-items:center;font-size:1.05rem;z-index:1}
+.body{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.body h3{margin:0 0 2px;font-size:1.05rem}
+.why{margin:0 0 8px;color:var(--mute);font-size:.9rem}
+.where{display:inline-block;font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-bottom:8px;color:var(--mute)}
+.code{position:relative;background:var(--code);color:var(--codefg);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0 0 8px}
+.code pre{margin:0;font:13px/1.65 ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace;white-space:pre}
+.code .c{color:var(--cm)}
+.copy{position:absolute;top:6px;right:6px;font:12px inherit;font-family:inherit;padding:3px 10px;border-radius:6px;border:1px solid #3a4b58;background:#16222b;color:#dbe7f0;cursor:pointer}
+.out{font-size:.87rem;margin:0}
+.out b{color:var(--ok)}
+.tip{font-size:.85rem;color:var(--mute);margin:6px 0 0}
+.tip b{color:var(--fg)}
+</style>
+</head>
+<body>
+<h1>Thai Legal RAG — วิธีใช้งานและคำสั่งตามลำดับ</h1>
+<p class="sub">เลือก terminal ที่คุณใช้ คำสั่งทุกขั้นจะเปลี่ยนตามอัตโนมัติ · รันทุกคำสั่งจากโฟลเดอร์ root ของโปรเจกต์ (ที่มี <code>config.py</code>)</p>
+<div class="tabs" role="tablist" id="tabs"></div>
+<p class="hint" id="hint"></p>
+<div class="oneclick" id="one"></div>
+<div class="spine" id="spine"></div>
+<script>
+const T={
+ps:{n:"Windows PowerShell",py:"py",cm:"#",h:"เปิดจาก Start → PowerShell (หรือ Terminal ใน VS Code) แล้ว cd เข้าโฟลเดอร์โปรเจกต์"},
+cmd:{n:"Windows CMD",py:"py",cm:"::",h:"เปิดจาก Start → cmd แล้ว cd /d เข้าโฟลเดอร์โปรเจกต์ (ใช้ /d เมื่อข้ามไดรฟ์)"},
+sh:{n:"Bash / Zsh (Linux · macOS · WSL)",py:"python3",cm:"#",h:"เปิด Terminal (macOS/Ubuntu) หรือ WSL แล้ว cd เข้าโฟลเดอร์โปรเจกต์"}};
+const TS=(t)=>t==="ps"?"Windows PowerShell":T[t].n;
+const steps=[
+{t:"ติดตั้ง Tesseract OCR (ครั้งเดียว)",w:"ใช้เป็นตัวสำรองเมื่อ PDF มี text layer พัง",
+ why:"ต้องมีข้อมูลภาษาไทย (tha) ไม่เช่นนั้น OCR สำรองจะใช้ไม่ได้",
+ c:t=>t==="sh"?["# Ubuntu / Debian / WSL","sudo apt-get update","sudo apt-get install -y tesseract-ocr tesseract-ocr-tha","","# macOS","brew install tesseract tesseract-lang"]
+   :[T[t].cm+" ติดตั้งด้วยตัวติดตั้ง .exe (UB-Mannheim) และติ๊กเลือก Thai ตอน Choose Components",T[t].cm+" จากนั้นตรวจว่ามีภาษาไทย:",(t==="ps"?"& ":"")+"\"C:\\Program Files\\Tesseract-OCR\\tesseract.exe\" --list-langs"],
+ o:"ในรายการภาษาต้องมี <b>tha</b>"},
+{t:"สร้าง virtual environment และติดตั้งไลบรารี",w:"root โปรเจกต์",
+ why:"บังคับ UTF-8 เพื่อไม่ให้สระภาษาไทยเพี้ยน แล้วติดตั้งแพ็กเกจใน requirements.txt",
+ c:t=>t==="ps"?["cd D:\\thai-legal-rag","$env:PYTHONUTF8=1","py -m venv .venv",".\\.venv\\Scripts\\Activate.ps1","py -m pip install --upgrade pip","py -m pip install -r requirements.txt"]
+   :t==="cmd"?["cd /d D:\\thai-legal-rag","chcp 65001","set PYTHONUTF8=1","py -m venv .venv","call .venv\\Scripts\\activate.bat","py -m pip install --upgrade pip","py -m pip install -r requirements.txt"]
+   :["cd ~/thai-legal-rag","export PYTHONUTF8=1","export PYTHONIOENCODING=utf-8","python3 -m venv .venv","source .venv/bin/activate","pip install --upgrade pip","pip install -r requirements.txt"],
+ o:"ต้องเห็น <b>(.venv)</b> หน้า prompt ก่อนรันขั้นถัดไป",
+ tip:t=>t==="ps"?"ถ้า Activate.ps1 ถูกบล็อก ให้รัน <b>Set-ExecutionPolicy -Scope Process Bypass</b> ก่อน แล้วสั่ง activate ใหม่":"เปลี่ยนพาธ <b>thai-legal-rag</b> เป็นตำแหน่งจริงของโปรเจกต์ (บน Windows ควรสั้น เช่น D:\\thai-legal-rag)"},
+{t:"ตั้งค่า API key และวางข้อมูลนำเข้า",w:"terminal เดิม (.venv เปิดอยู่)",
+ why:"config.py อ่าน LLM_API_KEY จาก environment variable; ต้องมี PDF และ testset.json ก่อนเริ่ม",
+ c:t=>[T[t].cm+" ตั้งคีย์ (ใช้ได้เฉพาะ terminal นี้ ต้องตั้งใหม่ทุกครั้งที่เปิดหน้าต่างใหม่)",t==="ps"?"$env:LLM_API_KEY=\"YOUR_API_KEY\"":t==="cmd"?"set LLM_API_KEY=YOUR_API_KEY":"export LLM_API_KEY=\"YOUR_API_KEY\"","",T[t].cm+" วางไฟล์ด้วยตัวเอง: PDF ทั้งหมด → data/pdfs/  ·  testset.json → data/"],
+ o:"ตรวจ <b>LLM_BASE_URL / LLM_MODEL</b> ใน config.py ให้ตรงกับ endpoint ที่ใช้"},
+{t:"สกัดข้อความจาก PDF",w:"terminal เดิม · root โปรเจกต์",
+ why:"อ่าน text layer → ตรวจคุณภาพ → OCR ถ้าจำเป็น → ทำความสะอาด",
+ c:t=>[T[t].py+" src/extract_corpus.py"],
+ o:"ได้ <b>data/documents/*.txt</b> และ <b>data/extraction_report.json</b>",
+ tip:()=>"ดูสรุปท้ายสคริปต์: ไฟล์ที่ <b>คุณภาพน่าสงสัย</b> หรือ <b>พัง</b> ต้องเปิดตรวจเอง (ระเบียบที่ใช้ “ข้อ” แทน “มาตรา” เป็นเรื่องปกติ)"},
+{t:"แบ่ง chunk และสร้างดัชนี",w:"terminal เดิม · root โปรเจกต์",
+ why:"แบ่งตามมาตรา/ข้อ 256 tokens แล้วสร้าง FAISS (dense) + BM25 (sparse)",
+ c:t=>[T[t].py+" scripts/build_index.py"],
+ o:"ได้ <b>artifacts/</b>: chunks.json, dense.faiss, bm25.pkl (ครั้งแรกจะดาวน์โหลดโมเดล embedding)"},
+{t:"Smoke test ตรวจความพร้อม",w:"terminal เดิม · root โปรเจกต์",
+ why:"ตรวจ config, เมตริก, testset กับ corpus และทดลอง Retriever ทั้ง 4 โหมด",
+ c:t=>[T[t].py+" scripts/smoke_test.py"],
+ o:"ต้องได้ ✅ ครบทุกหัวข้อ ถ้ามี ❌ ให้แก้ก่อนไปขั้นถัดไป"},
+{t:"รัน Ablation (เทียบ 4 retrieval variants)",w:"terminal เดิม · root โปรเจกต์",
+ why:"วัด Recall/MRR/nDCG, latency, Bootstrap CI และ p-value เทียบ dense",
+ c:t=>[T[t].py+" scripts/run_ablation.py"],
+ o:"ได้ <b>ablation_results.json</b> และ <b>ablation_table.md</b> (ไม่เรียก LLM)",
+ tip:()=>"variant <b>hybrid_rerank</b> ช้ากว่าตัวอื่นมากบน CPU เพราะต้องรัน Cross-Encoder ทุกคำถาม"},
+{t:"รัน Full Evaluation",w:"terminal เดิม · root โปรเจกต์ · ต้องต่อเน็ตถึง LLM endpoint",
+ why:"รัน RAG เต็มทุกคำถาม แล้วให้ BERTScore, LLM-as-Judge และวัดอัตรา abstain",
+ c:t=>[T[t].py+" scripts/run_eval.py"],
+ o:"ได้ <b>eval_results.json</b> และ <b>failure_cases.json</b> (เคสที่ตอบพลาด)",
+ tip:()=>"ขั้นนี้ใช้เวลานานและใช้ API key จากขั้น 3 — ถ้า judge ล้มเหลวให้ดู <b>n_judge_failed</b> ในผลสรุป"},
+{t:"ทดลองถาม-ตอบสด (Demo)",w:"terminal เดิม · root โปรเจกต์",
+ why:"พิมพ์คำถามกฎหมายแล้วดูคำตอบแบบ streaming พร้อมเอกสารอ้างอิง",
+ c:t=>[T[t].py+" demo.py",T[t].cm+" พิมพ์คำถามที่ prompt  ·  พิมพ์ exit เพื่อออก"],
+ o:"แสดงคำตอบทีละ token และรายการ <b>แหล่งอ้างอิง (score)</b>"}];
+const one={
+ c:t=>t==="ps"?[".\\run_pipeline.ps1"]:t==="cmd"?["powershell -ExecutionPolicy Bypass -File .\\run_pipeline.ps1"]:["chmod +x run_pipeline.sh","./run_pipeline.sh"]};
+let cur="ps";
+const $=id=>document.getElementById(id);
+function block(lines,cm){
+  const d=document.createElement("div");d.className="code";
+  const p=document.createElement("pre");
+  lines.forEach((l,i)=>{const s=document.createElement("span");
+    if(l.trim().startsWith(cm)||l.trim().startsWith("#")||l.trim().startsWith("::"))s.className="c";
+    s.textContent=l;p.appendChild(s);if(i<lines.length-1)p.appendChild(document.createTextNode("\n"))});
+  const b=document.createElement("button");b.className="copy";b.textContent="คัดลอก";b.type="button";
+  b.onclick=async()=>{const txt=lines.filter(l=>l.trim()&&!l.trim().startsWith(cm)&&!l.trim().startsWith("#")).join("\n");
+    try{await navigator.clipboard.writeText(txt);b.textContent="คัดลอกแล้ว"}catch(e){b.textContent="คัดลอกไม่ได้"}
+    setTimeout(()=>b.textContent="คัดลอก",1500)};
+  d.appendChild(p);d.appendChild(b);return d}
+function render(){
+  const t=cur,cm=T[t].cm;
+  $("hint").textContent=T[t].h;
+  $("one").innerHTML="<h2>ทางลัด: รันแทนขั้น 2, 4, 5, 7 และ 8 ด้วยคำสั่งเดียว</h2><p>สคริปต์จะสร้าง venv, ติดตั้งไลบรารี, สกัดข้อความ, สร้างดัชนี, รัน run_eval แล้วรัน run_ablation ให้เรียงกัน ต้องทำขั้น 1 และ 3 เองก่อน (ตัวสคริปต์ไม่รัน smoke test และ demo)</p>";
+  $("one").appendChild(block(one.c(t),cm));
+  const sp=$("spine");sp.innerHTML="";
+  steps.forEach((s,i)=>{
+    const st=document.createElement("div");st.className="step";
+    const n=document.createElement("div");n.className="num";n.textContent=i+1;
+    const b=document.createElement("div");b.className="body";
+    b.innerHTML=`<h3>${s.t}</h3><p class="why">${s.why}</p><span class="where">${i===1||i===0?"ที่: "+TS(t):"ที่: "+s.w}</span>`;
+    b.appendChild(block(s.c(t),cm));
+    if(s.o){const o=document.createElement("p");o.className="out";o.innerHTML="ผลที่ได้: "+s.o;b.appendChild(o)}
+    if(s.tip){const tp=document.createElement("p");tp.className="tip";tp.innerHTML="เคล็ดลับ: "+s.tip(t);b.appendChild(tp)}
+    st.appendChild(n);st.appendChild(b);sp.appendChild(st)});
+}
+Object.keys(T).forEach(k=>{
+  const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=T[k].n;
+  b.setAttribute("aria-selected",k===cur);
+  b.onclick=()=>{cur=k;[...$("tabs").children].forEach(x=>x.setAttribute("aria-selected",x===b));render()};
+  $("tabs").appendChild(b)});
+render();
+</script>
+</body>
+</html>
