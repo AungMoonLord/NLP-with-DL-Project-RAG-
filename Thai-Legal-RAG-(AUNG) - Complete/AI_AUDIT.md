@@ -101,6 +101,144 @@ KeyError: 'reference_answer'
 แก้ไขลูปประเมินผลใน `scripts/run_ablation.py` ให้ตรวจสอบและดึง `target_docs = item.get("relevant_docs") or [item.get("source_doc")]` พร้อมแปลงเป็น List อัตโนมัติ รวมถึงตรวจสอบ `doc_id` ในก้อน Chunk ที่ดึงขึ้นมาให้รองรับการ Match ชื่อไฟล์ที่มีหรือไม่มีนามสกุล `.pdf`/`.txt`
 
 ---
+## Entry 6
+
+**Prompt sent:**
+
+ตรวจสอบระบบ RAG ว่า E5 embedding ที่ใช้ใน Dense Retrieval มีการใส่ prefix ถูกต้องทั้งฝั่ง Index และฝั่ง Query หรือไม่ เพราะทราบว่า E5 ต้องใช้ `passage:` ตอนสร้าง embedding ของเอกสาร และ `query:` ตอนค้นหา
+
+**What AI generated:**
+
+AI ตรวจสอบ implementation และชี้ว่าการใช้โมเดลตระกูล E5 ต้องรักษารูปแบบ input ให้สอดคล้องกันทั้งสองฝั่ง โดยเอกสารที่นำไปสร้าง index ควร encode ด้วย `passage: <chunk>` และคำถามของผู้ใช้ควร encode ด้วย `query: <question>` มิฉะนั้น embedding space อาจไม่สอดคล้องกันและทำให้ Retrieval Recall ลดลงโดยระบบยังสามารถทำงานได้โดยไม่เกิด Runtime Error
+
+**What you changed or rejected:**
+
+ตรวจสอบและยืนยัน implementation ใน `indexer.py` และ retrieval code ให้ใช้ prefix ที่ถูกต้องทั้งสองฝั่ง โดยฝั่ง indexing ใช้ `passage:` และฝั่ง query ใช้ `query:` รวมถึงใช้ `normalize_embeddings=True` ทั้งสองฝั่งเพื่อให้ Inner Product ของ FAISS สอดคล้องกับ Cosine Similarity
+
+ผลจากการตรวจสอบพบว่า implementation ปัจจุบันรองรับทั้งสองเงื่อนไขแล้ว จึงไม่ได้เปลี่ยน architecture หลักของระบบ
+
+---
+
+## Entry 7
+
+**Prompt sent:**
+
+ตรวจสอบ Evaluation Pipeline เพราะ testset มีทั้งคำถามที่มีคำตอบอยู่ใน corpus และคำถาม adversarial ที่ตั้งใจถามสิ่งที่ไม่มีใน corpus ถ้านำทุกข้อมาเฉลี่ย BERTScore และ Faithfulness รวมกันจะเกิดปัญหาหรือไม่
+
+**What AI generated:**
+
+AI วิเคราะห์ว่าควรแยกการประเมินออกเป็นสองกลุ่ม เนื่องจากคำถาม adversarial ไม่มี Ground Truth สำหรับนำไปคำนวณ BERTScore แบบเดียวกับคำถามที่ตอบได้
+
+จึงเสนอให้แบ่งเป็น:
+
+* **Answerable**
+  * BERTScore
+  * Faithfulness
+  * Relevance
+  * False Abstention Rate
+* **Adversarial**
+  * Correct Abstention Rate
+
+นอกจากนี้ AI ชี้ว่า Faithfulness ไม่ควรนำคำตอบที่เป็นการปฏิเสธมารวมเฉลี่ยโดยไม่พิจารณา Answer Rate เพราะระบบที่ปฏิเสธทุกคำถามอาจได้คะแนน Faithfulness สูงผิดจริง
+
+**What you changed or rejected:**
+
+ปรับ `run_eval.py` และ logic ใน `src/evaluation.py` ให้แยก Answerable และ Adversarial ออกจากกันอย่างชัดเจน
+
+สำหรับ Answerable มีการรายงาน:
+
+* BERTScore
+* Answer Rate
+* Faithfulness เฉพาะคำตอบที่ระบบยอมตอบ
+* Relevance
+* False Abstention Rate
+
+สำหรับ Adversarial รายงาน:
+
+* Correct Abstention Rate
+
+และยังเก็บผลรายคำถามและ Failure Cases เพื่อใช้วิเคราะห์ปัญหาของระบบภายหลัง
+
+---
+
+## Entry 8
+
+**Prompt sent:**
+
+ช่วยตรวจสอบและปรับปรุง `run_ablation.py` สำหรับเปรียบเทียบ Dense, BM25, Hybrid และ Hybrid + Reranker โดยต้องการวัดเฉพาะประสิทธิภาพของ Retrieval ไม่ให้ผลของ LLM Generator เข้ามาปะปน
+
+**What AI generated:**
+
+AI เสนอให้แยก Retrieval Evaluation ออกจาก Full RAG Evaluation และประเมิน 4 Retrieval Variants:
+
+1. `dense`
+2. `bm25`
+3. `hybrid`
+4. `hybrid_rerank`
+
+โดยใช้ Retrieval Metrics ได้แก่:
+
+* Recall@k
+* Hit@k
+* nDCG@k
+* MRR
+* Latency
+
+และเพิ่ม Bootstrap 95% Confidence Interval รวมถึง Paired Bootstrap Test สำหรับเปรียบเทียบแต่ละ variant กับ Dense baseline
+
+AI ยังเสนอให้ normalize Document ID ก่อนเปรียบเทียบ เพื่อป้องกันกรณีเดียวกันแต่เขียนเป็น `.pdf`, `.txt`, path เต็ม หรือชื่อไฟล์แตกต่างกัน
+
+**What you changed or rejected:**
+
+ปรับ `run_ablation.py` ให้ใช้เฉพาะคำถาม Answerable ที่มี Gold Document และเรียก Retrieval โดยตรงแทนการเรียก Full Generation Pipeline
+
+เพิ่มการ normalize Document ID ผ่าน `src/metrics.py` และรองรับ Ground Truth หลายรูปแบบ เช่น `relevant_docs`, `gold_docs`, `source_doc` และ `doc_id`
+
+เพิ่มการรายงาน Bootstrap 95% CI, latency และข้อมูล diagnostics ของ reranker เพื่อให้สามารถวิเคราะห์ผล Retrieval ได้โดยไม่ปะปนกับคุณภาพของ LLM Generator
+
+---
+
+## Entry 9
+
+**Prompt sent:**
+
+ตรวจสอบว่าการใช้ LLM ตัวเดียวกันเป็นทั้ง Generator และ LLM-as-Judge มีปัญหาทาง Methodology หรือไม่ เพราะโปรเจกต์ใช้โมเดลเดียวกันเนื่องจากข้อจำกัดด้านค่าใช้จ่าย
+
+**What AI generated:**
+
+AI ระบุว่าการใช้โมเดลเดียวกันสำหรับ Generator และ Judge มีความเสี่ยงด้าน evaluation methodology เนื่องจาก Judge อาจมีแนวโน้มประเมิน output ที่สร้างโดยโมเดลเดียวกันในลักษณะที่ไม่เป็นอิสระจากกัน
+
+AI แนะนำว่าถ้ามีทรัพยากรเพียงพอ ควรใช้ Judge Model ที่แตกต่างจาก Generator Model
+
+**What you changed or rejected:**
+
+ไม่ได้เปลี่ยนโมเดลเนื่องจากข้อจำกัดด้านทรัพยากรและค่าใช้จ่ายของโปรเจกต์
+
+ทีมเลือกเก็บ LLM-as-Judge ไว้ตาม implementation เดิม และบันทึกข้อจำกัดดังกล่าวเป็น **Evaluation Limitation** ของระบบ เพื่อให้ผลการประเมินมีความโปร่งใสและไม่ตีความว่าเป็นการประเมินจากผู้ประเมินที่เป็นอิสระอย่างสมบูรณ์
+
+---
+
+## Entry 10
+
+**Prompt sent:**
+
+ตรวจสอบว่า Evaluation ที่ปรับปรุงแล้วสอดคล้องกับ Requirement ของอาจารย์หรือไม่ โดย Requirement กำหนดให้ใช้ metrics จากรายวิชาอย่างน้อย 2 ตัว เช่น BERTScore, BLEU/ROUGE, LLM-as-Judge, RAGAS Faithfulness และ RAGAS Answer Relevance
+
+**What AI generated:**
+
+AI ตรวจสอบ Evaluation Pipeline และพบว่าระบบมี Metrics ตาม Requirement มากกว่า 2 ตัว ได้แก่:
+
+1. BERTScore
+2. LLM-as-Judge — Faithfulness
+3. LLM-as-Judge — Relevance
+
+นอกจากนี้ระบบยังมี Retrieval Metrics สำหรับ Ablation เช่น Recall@k, Hit@k, MRR และ nDCG ซึ่งใช้ประเมิน Retrieval โดยเฉพาะ
+
+**What you changed or rejected:**
+
+ไม่เพิ่ม Metric ใหม่ เนื่องจาก Requirement กำหนดเพียงอย่างน้อย 2 Metrics และระบบมี BERTScore และ LLM-as-Judge อยู่แล้ว
+
+ทีมจึงเลือกมุ่งเน้นการทำให้ Evaluation ที่มีอยู่ถูกต้องและแยก Answerable/Adversarial อย่างเหมาะสม แทนการเพิ่ม Metrics ที่ไม่จำเป็น
 
 ## 3. Decision Journal
 
@@ -147,9 +285,9 @@ AI ด่วนสรุปว่าการไม่พบคำว่า "ม
 | Team Member | Human Contribution | AI Tools Used |
 |---|---|---|
 | **[67070297]** | รวบรวมเอกสารกฎหมายไทยเกี่ยวกับ [ภาษี, ธนาคาร, การเงินและการลงทุน] (27 ฉบับ), ตรวจสอบความถูกต้องของ OCR, แก้ไขโครงสร้างไฟล์และ Path บนระบบปฏิบัติการ, ทดลองสร้าง Prototype RAG แบบ Full Pipeline,สร้างไฟล์ README.md, สร้างไฟล์ AI_AUDIT, สร้างไฟล์ json สำหรับ test จำนวน 20 ตัวอย่าง, แก้ Error | Claude Fable 5, Gemini Flash 3.8, Claude Opus 5, Claude Sonnet 5 |
-| **[67070226]** | "ใส่งานที่ตัวเองทำ" | "Claude Sonnet 5, Gemini Flash 3.8" |
-| **[Member 3]** | "ใส่งานที่ตัวเองทำ" | "ใส่ AI ที่ตัวเองใช้" |
-| **[Member 4]** | "ใส่งานที่ตัวเองทำ" | "ใส่ AI ที่ตัวเองใช้" |
+| **[67070226]** | "รวบรวมเอกสารกฎหมายไทยเกี่ยวกับ[รัฐธรรมนูญ,กฎหมายเลือกตั้ง,รัฐสภา (การเมืองและการปกครอง)], ทดลองสร้าง Prototype RAG แบบ Full Pipeline", ปรับปรุงโค้ดและแก้ไข error | "Claude Sonnet 5, Gemini Flash 3.8" |
+| **[67070255]** | "ใส่งานที่ตัวเองทำ" | "ใส่ AI ที่ตัวเองใช้" |
+| **[67070302]** | "ใส่งานที่ตัวเองทำ" | "ใส่ AI ที่ตัวเองใช้" |
 
 ---
 
