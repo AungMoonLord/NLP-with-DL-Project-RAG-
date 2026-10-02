@@ -11,7 +11,7 @@
 | 3 | อองรักษ์ วณิชชานัย | 67070297 |
 | 4 | เอื้ออังกูร ชัยวิวัฒน์พร | 67070302 |
 
-**AI Tools Used:** Claude Fable 5, Gemini, Claude Sonnet 5
+**AI Tools Used:** Claude Fable 5, Gemini, Claude Sonnet 5, Claude Opus 5
 
 ---
 ## 1. Tool Inventory
@@ -19,8 +19,9 @@
 | AI Tool | Primary Use in This Project |
 |---|---|
 | **Claude Fable 5** | ออกแบบสถาปัตยกรรมระบบ RAG และสร้างโค้ด Baseline Full Pipeline (Ingestion, Chunking, Hybrid Retrieval, Evaluation, Ablation) |
-| **Gemini** | ตรวจสอบและแก้ไขบั๊กเชิงลึกระดับ Runtime (Windows MAX_PATH limit, Ingestion crash, Evaluation schema mismatch, Cross-platform scripts) |
+| **Gemini Flash 3.8** | ตรวจสอบและแก้ไขบั๊กเชิงลึกระดับ Runtime (Windows MAX_PATH limit, Ingestion crash, Evaluation schema mismatch, Cross-platform scripts) |
 | **Claude Sonnet 5** | จัดทำโครงสร้างเอกสารทางเทคนิค บันทึกผลการทดลอง และจัดรูปแบบ Markdown สำหรับ README.md และ AI_AUDIT.md |
+| **Claude Opus 5** | ใช้ช่วยตรวจสอบแนวทางเชิงเทคนิคและวิเคราะห์ปัญหาเฉพาะส่วนตามที่สมาชิกทีมใช้งานจริง |
 
 ---
 
@@ -303,13 +304,17 @@ AI ด่วนสรุปว่าการไม่พบคำว่า "ม
 
 เมื่อมี Cross-Encoder Reranker ทำหน้าที่ใน Stage 2 ตัว Reranker จะประมวลผลคู่ (Query, Document) พร้อมกันทั้งประโยคผ่าน Full Self-Attention ทำให้โมเดลเข้าใจเงื่อนไข ความสัมพันธ์เชิงลึก และข้อยกเว้นของข้อกฎหมายได้ดีกว่ามาก หากตัดออก Top-1 Document จะมีความแม่นยำน้อยลง ทำให้ LLM ได้รับ Context ที่มี Noise ปน และอาจนำไปสู่การสรุปคำตอบกฎหมายที่ผิดเพี้ยน
 
-### b) Why did you chunk your documents at ~512 tokens? What would happen to retrieval quality if you used 2x or 0.5x that size?
+### b) Why did you chunk your documents at ~256 tokens? What would happen to retrieval quality if you used 2x or 0.5x that size?
 
-เราเลือกขนาด Chunk ที่ ~512 tokens เพราะสอดคล้องกับขนาดโดยเฉลี่ยของ "หนึ่งมาตราพร้อมวรรคขยายหรือบทยกเว้น" ในโครงสร้างกฎหมายไทย
+เราเลือกขนาด Chunk ที่ประมาณ 256 tokens พร้อม overlap 48 tokens เพราะเหมาะกับความยาวเฉลี่ยของอนุมาตรา วรรค และเงื่อนไขสำคัญในกฎหมายไทย ทำให้ embedding ของแต่ละ chunk มีความเฉพาะเจาะจงต่อประเด็น (high specificity) มากพอสำหรับการค้นคืน
 
-**หากเพิ่มขนาดเป็น 2x (~1024 tokens):** จะเกิดปัญหา Semantic Dilution (ความหมายเจือจาง) ตัว Embedding Model จะต้องบีบอัดข้อความ 2-3 มาตราที่อาจพูดคนละประเด็นลงในเวกเตอร์ 768 มิติอันเดิม ทำให้ Vector Representation มีค่าเฉลี่ยความหมายที่กว้างเกินไป (Loss of specificity) ส่งผลให้การค้นหาคำถามเจาะจงเฉพาะจุดทำได้แย่ลง อีกทั้งยังเปลือง Context Window ของ LLM โดยมีข้อความที่ไม่เกี่ยวข้องติดไปด้วย
+ขนาดนี้ช่วยลดปัญหา Semantic Dilution ซึ่งเกิดเมื่อ chunk ใหญ่เกินไปและมีหลายประเด็นทางกฎหมายอยู่ใน embedding เดียวกัน ขณะเดียวกัน overlap 48 tokens ช่วยรักษาความต่อเนื่องของข้อความบริเวณรอยตัด โดยเฉพาะกรณีที่เงื่อนไขหลักและข้อยกเว้นอยู่คนละช่วงของข้อความ
 
-**หากลดขนาดลงเหลือ 0.5x (~256 tokens):** จะเกิดปัญหา Context Fragmentation (บริบทฉีกขาด) ตัวบทกฎหมายไทยมักบัญญัติหลักการไว้ในวรรคหนึ่ง และระบุข้อยกเว้นสำคัญไว้ในวรรคสองหรือวรรคท้าย หากตัดที่ 256 tokens บทยกเว้นจะถูกแยกขาดออกจากหลักการ ทำให้ระบบค้นหาอาจหยิบเฉพาะท่อนหลักการมาตอบโดยไม่เห็นข้อยกเว้น ส่งผลให้ LLM ตอบข้อวินิจฉัยทางกฎหมายผิดพลาดอย่างร้ายแรง
+หากเพิ่มขนาดเป็น 2 เท่า (~512 tokens): embedding จะต้องสรุปเนื้อหาที่ยาวขึ้นและอาจครอบคลุมหลายมาตราหรือหลายประเด็นในก้อนเดียว ทำให้ความหมายของ vector กว้างขึ้นและลดความสามารถในการค้นหาคำถามที่เจาะจง เช่น คำถามเกี่ยวกับเงื่อนไข ข้อยกเว้น ระยะเวลา หรือบทลงโทษเฉพาะกรณี นอกจากนี้ context ที่ส่งให้ LLM จะมีข้อความที่ไม่เกี่ยวข้องมากขึ้น และเพิ่ม latency ในขั้น generation
+
+หากลดขนาดลงครึ่งหนึ่ง (~128 tokens): จะเสี่ยงต่อปัญหา Context Fragmentation เพราะกฎหมายไทยมักระบุหลักเกณฑ์ในวรรคหนึ่ง แล้วระบุเงื่อนไข ข้อยกเว้น หรือบทลงโทษในวรรคถัดไป หากข้อความถูกแบ่งละเอียดเกินไป ระบบอาจ retrieve ได้เพียงหลักเกณฑ์หลัก แต่ไม่เห็นข้อยกเว้นที่สำคัญ ส่งผลให้คำตอบของ LLM ไม่ครบถ้วนหรือคลาดเคลื่อน
+
+ดังนั้น 256 tokens จึงเป็นจุดสมดุลระหว่างความเฉพาะเจาะจงของ retrieval ความต่อเนื่องของบริบท และต้นทุนในการส่ง context ให้โมเดลสร้างคำตอบ
 
 ### c) Your ablation compares two system variants. Pick the result that surprised you most and explain the mechanism behind it — not just "variant A scored higher" but why technically.
 
