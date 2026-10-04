@@ -22,6 +22,7 @@
 | **Gemini Flash 3.8** | ตรวจสอบและแก้ไขบั๊กเชิงลึกระดับ Runtime (Windows MAX_PATH limit, Ingestion crash, Evaluation schema mismatch, Cross-platform scripts) |
 | **Claude Sonnet 5** | จัดทำโครงสร้างเอกสารทางเทคนิค บันทึกผลการทดลอง และจัดรูปแบบ Markdown สำหรับ README.md และ AI_AUDIT.md |
 | **Claude Opus 5** | ใช้ช่วยตรวจสอบแนวทางเชิงเทคนิคและวิเคราะห์ปัญหาเฉพาะส่วนตามที่สมาชิกทีมใช้งานจริง |
+| **Google AI** | ใช้รวบรวมข้อมูลกฏหมาย และคัดกรอกกฎหมายที่จะนำมาใช้งาน |
 
 ---
 
