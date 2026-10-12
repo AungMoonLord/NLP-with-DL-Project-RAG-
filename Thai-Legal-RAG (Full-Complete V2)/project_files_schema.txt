@@ -1,0 +1,92 @@
+================================================================================
+ PROJECT FILES SCHEMA — Thai Legal RAG Q&A System
+ ระบบถาม-ตอบเอกสารกฎหมายไทยด้วย Retrieval-Augmented Generation (RAG)
+================================================================================
+ สัญลักษณ์:
+   [gen]  = ไฟล์/โฟลเดอร์ที่ถูกสร้างอัตโนมัติจากการรันสคริปต์ (ไม่ต้องเขียนเอง)
+   [in]   = ข้อมูลนำเข้าที่ต้องเตรียมเอง
+================================================================================
+
+thai-legal-rag/                        # Root ของโปรเจกต์ (แนะนำให้วางในพาธสั้นๆ เช่น D:\thai-legal-rag เพราะ Windows จำกัดพาธ 260 ตัวอักษร)
+│
+├── config.py                          # ศูนย์รวมค่าตั้งค่าทั้งหมด: path, chunk size/overlap, embedding/reranker model, top-k, RRF_K, LLM endpoint/model, ข้อความ abstain
+├── demo.py                            # Live demo แบบโต้ตอบใน terminal: พิมพ์คำถาม -> ตอบแบบ streaming ทีละ token พร้อมแสดงเอกสารอ้างอิงและคะแนน
+├── requirements.txt                   # รายการไลบรารี Python ที่ต้องติดตั้ง (sentence-transformers, faiss-cpu, rank-bm25, pythainlp, bert-score, pymupdf, pytesseract ฯลฯ)
+├── README.md                          # คู่มือติดตั้ง (Tesseract OCR, venv), การตั้งค่า, ลำดับการรันทีละขั้น และคำอธิบาย artifacts
+├── AI_AUDIT.md                        # บันทึกการใช้ AI: tool inventory, prompt log, decision journal, error catch log, contribution map, คำตอบ "What Would Break?"
+├── run_pipeline.ps1                   # สคริปต์รัน pipeline ทั้งชุดอัตโนมัติสำหรับ Windows PowerShell (ตรวจ Tesseract -> venv -> extract -> index -> eval -> ablation)
+├── run_pipeline.sh                    # สคริปต์รัน pipeline ทั้งชุดอัตโนมัติสำหรับ macOS / Linux / WSL (ทำหน้าที่เหมือน .ps1)
+├── .gitignore                         # กำหนดไฟล์ที่ไม่ส่งขึ้น Git: __pycache__, .venv, .env, คีย์ลับ, และ artifacts/*.faiss, artifacts/*.pkl (ไฟล์ index ขนาดใหญ่)
+│
+├── data/                              # โฟลเดอร์ข้อมูลทั้งหมดของโปรเจกต์
+│   ├── pdfs/                          # [in] PDF เอกสารกฎหมายไทยต้นฉบับ (~80–85 ฉบับ) ที่ใช้เป็น corpus (โค้ดอ้างอิงชื่อ data/pdfs)
+│   ├── documents/                     # [gen] ไฟล์ .txt ที่สกัดและทำความสะอาดแล้วจาก PDF (1 PDF = 1 .txt) — Chunker อ่านจากโฟลเดอร์นี้
+│   ├── testset.json                   # [in] ชุดคำถามทดสอบ (~20 ข้อ) พร้อมเฉลย, เอกสารอ้างอิง (source_doc/relevant_docs) และคำถามหลอก (adversarial)
+│   └── extraction_report.json         # [gen] รายงานผลการสกัดข้อความรายไฟล์: วิธีที่ใช้ (text_layer/ocr), คะแนนคุณภาพ, จำนวนตัวอักษร, จำนวน "มาตรา"
+│
+├── src/                               # โมดูลหลักของระบบ RAG (import ด้วย from src.xxx import ...)
+│   ├── __init__.py                    # ไฟล์ว่าง ทำให้ src เป็น Python package (จำเป็นสำหรับ import — ไม่ควรลบ)
+│   ├── extraction.py                  # PDF -> ข้อความสะอาด: ลอง text layer ก่อน, ตรวจคุณภาพ (สัดส่วนอักษรไทย/สระลอย), ถ้าไม่ผ่านจึง OCR ด้วย Tesseract, แล้ว normalize ข้อความ
+│   ├── extract_corpus.py              # สคริปต์วนสกัดทุก PDF ใน data/pdfs -> data/documents, เขียน extraction_report.json และสรุปไฟล์ที่ใช้ OCR/คุณภาพน่าสงสัย/ล้มเหลว
+│   ├── chunking.py                    # ThaiLegalChunker: แบ่งเอกสารตาม "มาตรา"/"ข้อ" แล้ว pack เป็น chunk แบบ token-aware (ใช้ tokenizer เดียวกับ embedding) + sliding window เมื่อยาวเกิน
+│   ├── indexer.py                     # สร้างดัชนี: Dense (multilingual-e5-base -> FAISS IndexFlatIP) และ BM25 (ตัดคำไทยด้วย PyThaiNLP newmm) พร้อมบันทึก chunks.json
+│   ├── retrieval.py                   # Retriever 4 โหมด: dense, bm25, hybrid (รวมด้วย RRF), hybrid_rerank (Cross-Encoder bge-reranker-v2-m3) พร้อม debug info
+│   ├── generation.py                  # สร้างคำตอบด้วย LLM จาก context (แบบปกติและ streaming), system prompt แบบเข้มงวด, ตรวจจับการปฏิเสธตอบ (abstention)
+│   ├── pipeline.py                    # RAGPipeline: เชื่อม Retriever + Generator เป็น end-to-end (answer / answer_stream)
+│   ├── metrics.py                     # เมตริกการค้นคืน (Recall@k, Hit@k, MRR, nDCG@k), ตัว normalize ชื่อเอกสาร, และสถิติ Bootstrap CI / Paired bootstrap p-value
+│   ├── evaluation.py                  # เมตริกคุณภาพคำตอบ: BERTScore (xlm-roberta-large) และ LLM-as-Judge (Faithfulness/Relevance แบบตรวจทีละ claim + จัดการกรณี abstain)
+│   └── smoke_test.py                  # (สำเนาซ้ำกับ scripts/smoke_test.py — ควรเก็บไว้ที่เดียว) ตรวจความพร้อมของระบบก่อนรันประเมินจริง
+│
+├── scripts/                           # สคริปต์สั่งรันแต่ละขั้นตอนของ pipeline (รันจาก root: py scripts/xxx.py)
+│   ├── build_index.py                 # ขั้น 2: chunk เอกสารทั้ง corpus แล้วสร้าง FAISS + BM25 index ลง artifacts/ พร้อมพิมพ์สถิติ chunk (จำนวน/เฉลี่ย/min/max tokens)
+│   ├── smoke_test.py                  # ขั้น 3: ตรวจ config, ทดสอบฟังก์ชันเมตริก, ตรวจ testset ตรงกับ corpus, และทดสอบ Retriever ทุกโหมดแบบสด
+│   ├── run_ablation.py                # ขั้น 4: เปรียบเทียบ 4 retrieval variants (Recall/Hit/nDCG/MRR, latency, bootstrap CI, p-value เทียบ dense) -> ablation_results.json + ablation_table.md
+│   └── run_eval.py                    # ขั้น 5: ประเมิน full RAG (BERTScore, LLM-as-Judge, อัตรา abstention ถูก/ผิด) -> eval_results.json และคัดเคสล้มเหลวลง failure_cases.json
+│
+└── artifacts/                         # ผลลัพธ์ทั้งหมดที่ระบบสร้างขึ้น (index + ผลการทดลอง)
+    ├── chunks.json                    # [gen] chunk ทั้งหมดหลังแบ่งแล้ว (chunk_id, doc_id, text, n_tokens) ใช้อ้างอิงตอน retrieve และประกอบ context
+    ├── dense.faiss                    # [gen] เวกเตอร์ดัชนี FAISS สำหรับ dense search (ถูก gitignore เพราะขนาดใหญ่ — สร้างใหม่ได้ด้วย build_index.py)
+    ├── bm25.pkl                       # [gen] ดัชนี BM25 (pickle) สำหรับ sparse search (ถูก gitignore — สร้างใหม่ได้)
+    ├── ablation_results.json          # [gen] ผล ablation แบบละเอียด: ค่าเฉลี่ยทุกเมตริก, 95% CI, p-value, latency, คะแนนรายคำถาม
+    ├── ablation_table.md              # [gen] ตารางสรุป ablation (Markdown) สำหรับนำไปวางในสไลด์นำเสนอ
+    ├── eval_results.json              # [gen] ผลประเมิน full pipeline: BERTScore, LLM-judge (distribution), abstention rate, ผลรายคำถาม
+    └── failure_cases.json             # [gen] เคสที่ระบบทำพลาด (hallucination, over-refusal, faithfulness/relevance ต่ำ, unsupported claims) สำหรับ Failure Analysis
+
+
+================================================================================
+ ลำดับการรัน (Execution Flow)
+================================================================================
+  data/pdfs/*.pdf
+     |  (src/extract_corpus.py  -> ใช้ src/extraction.py)
+     v
+  data/documents/*.txt  +  data/extraction_report.json
+     |  (scripts/build_index.py -> ใช้ src/chunking.py + src/indexer.py)
+     v
+  artifacts/chunks.json, dense.faiss, bm25.pkl
+     |  (scripts/smoke_test.py  -> ตรวจความพร้อม)
+     v
+  scripts/run_ablation.py  ->  artifacts/ablation_results.json, ablation_table.md
+  scripts/run_eval.py      ->  artifacts/eval_results.json, failure_cases.json
+  demo.py                  ->  ถาม-ตอบสดผ่าน RAGPipeline (src/pipeline.py)
+
+  หรือรันทั้งหมดในคำสั่งเดียว: run_pipeline.ps1 (Windows) / run_pipeline.sh (Linux, macOS)
+
+
+================================================================================
+ ข้อสังเกตจากการอ่านโค้ด (ควรตรวจสอบ/แก้ไข)
+================================================================================
+  1. ตำแหน่งของ extract_corpus.py: ในโครงสร้างอยู่ใน src/ แต่ run_pipeline.* และ
+     README เรียก "src/extract_corpus.py" ส่วนสคริปต์อื่นทั้งหมดอยู่ใน scripts/ —
+     ให้ตรวจว่าพาธที่เรียกตรงกับตำแหน่งจริง (หรือย้ายไป scripts/ เพื่อความสอดคล้อง)
+  2. smoke_test.py ซ้ำกัน 2 ที่ (src/ และ scripts/) — เก็บไว้ที่ scripts/ ที่เดียวก็พอ
+  3. ชื่อโฟลเดอร์ PDF: โค้ดใช้ "data/pdfs" แต่ในโครงสร้างที่ส่งมาเขียนเป็น "pdf" —
+     ตรวจให้ตรงกัน
+  4. config.py มี API key ฝังเป็นค่า fallback ในโค้ด (LLM_API_KEY) — ควรลบออกและ
+     อ่านจาก environment variable / ไฟล์ .env เท่านั้น โดยเฉพาะก่อนส่งขึ้น Git
+  5. ค่า chunk ไม่ตรงกันระหว่างเอกสารกับโค้ด: config.py ใช้ CHUNK_SIZE=256,
+     OVERLAP=48 แต่ AI_AUDIT.md ระบุ overlap 32 และหัวข้อ "What Would Break?"
+     พูดถึง ~512 tokens — ควรปรับข้อความให้ตรงกับค่าจริงก่อนส่งงาน
+  6. ตัวเลขใน AI_AUDIT.md ข้อ c) (Recall@5 = 0.55, MRR 0.5167 -> 0.55) ไม่ตรงกับ
+     artifacts/ablation_table.md ล่าสุด (Recall@5 = 1.00, MRR 0.94 -> 1.00) —
+     ควรอัปเดตให้สอดคล้องกับผลรันล่าสุด
+================================================================================

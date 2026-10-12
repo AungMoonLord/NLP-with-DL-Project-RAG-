@@ -1,0 +1,27 @@
+# Python & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Sensitive Configs / Credentials
+# (หากยังฮาร์ดโค้ด Key ใน config.py ให้เปิดคอมเมนต์บรรทัดล่างนี้)
+# config.py
+.env
+*.pem
+*.key
+
+# Binary Index Artifacts (ขนาดใหญ่ และสร้างใหม่ได้จาก scripts/build_index.py)
+artifacts/*.faiss
+artifacts/*.pkl
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
